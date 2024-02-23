@@ -16843,7 +16843,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[51]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'float64'</span><span class="p">,</span> <span class="s1">'int64'</span><span class="p">,</span><span class="s1">'int32'</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
@@ -16902,7 +16902,7 @@ Column &#39;totalcharges&#39;: [  29.85 1889.5   108.15 ...  346.45  306.6  6844
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Create a scaler object</span>
@@ -16919,10 +16919,10 @@ Column &#39;totalcharges&#39;: [  29.85 1889.5   108.15 ...  346.45  306.6  6844
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[53]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_cols</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">num_cols</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -16940,13 +16940,117 @@ Column &#39;totalcharges&#39;: [  29.85 1889.5   108.15 ...  346.45  306.6  6844
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[38]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[53]:</div>
 
 
 
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>Index([&#39;seniorcitizen&#39;, &#39;tenure&#39;, &#39;monthlycharges&#39;, &#39;totalcharges&#39;], dtype=&#39;object&#39;)</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seniorcitizen</th>
+      <th>tenure</th>
+      <th>monthlycharges</th>
+      <th>totalcharges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>1</td>
+      <td>29.85</td>
+      <td>29.85</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>34</td>
+      <td>56.95</td>
+      <td>1889.50</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>2</td>
+      <td>53.85</td>
+      <td>108.15</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>45</td>
+      <td>42.30</td>
+      <td>1840.75</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>2</td>
+      <td>70.70</td>
+      <td>151.65</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>7038</th>
+      <td>0.0</td>
+      <td>24</td>
+      <td>84.80</td>
+      <td>1990.50</td>
+    </tr>
+    <tr>
+      <th>7039</th>
+      <td>0.0</td>
+      <td>72</td>
+      <td>103.20</td>
+      <td>7362.90</td>
+    </tr>
+    <tr>
+      <th>7040</th>
+      <td>0.0</td>
+      <td>11</td>
+      <td>29.60</td>
+      <td>346.45</td>
+    </tr>
+    <tr>
+      <th>7041</th>
+      <td>1.0</td>
+      <td>4</td>
+      <td>74.40</td>
+      <td>306.60</td>
+    </tr>
+    <tr>
+      <th>7042</th>
+      <td>0.0</td>
+      <td>66</td>
+      <td>105.65</td>
+      <td>6844.50</td>
+    </tr>
+  </tbody>
+</table>
+<p>7021 rows × 4 columns</p>
+</div>
 </div>
 
 </div>
@@ -16960,10 +17064,11 @@ Column &#39;totalcharges&#39;: [  29.85 1889.5   108.15 ...  346.45  306.6  6844
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_normalized</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">num_cols</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">num_cols</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_normalized</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">num_cols</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">num_cols</span><span class="p">)</span>
+<span class="n">df_normalized</span>
 </pre></div>
 
      </div>
@@ -16981,99 +17086,119 @@ Column &#39;totalcharges&#39;: [  29.85 1889.5   108.15 ...  346.45  306.6  6844
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[54]:</div>
 
 
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>                                Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[39], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> df_normalized <span style="color: rgb(98,98,98)">=</span> pd<span style="color: rgb(98,98,98)">.</span>DataFrame(scaler<span style="color: rgb(98,98,98)">.</span>fit_transform(num_cols), columns<span style="color: rgb(98,98,98)">=</span>num_cols<span style="color: rgb(98,98,98)">.</span>columns)
 
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\utils\_set_output.py:140</span>, in <span class="ansi-cyan-fg">_wrap_method_output.&lt;locals&gt;.wrapped</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, *args, **kwargs)</span>
-<span class="ansi-green-fg">    138</span> <span style="color: rgb(175,0,255)">@wraps</span>(f)
-<span class="ansi-green-fg">    139</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">wrapped</span>(<span style="color: rgb(0,135,0)">self</span>, X, <span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs):
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 140</span>     data_to_wrap <span style="color: rgb(98,98,98)">=</span> f(<span style="color: rgb(0,135,0)">self</span>, X, <span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
-<span class="ansi-green-fg">    141</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">isinstance</span>(data_to_wrap, <span style="color: rgb(0,135,0)">tuple</span>):
-<span class="ansi-green-fg">    142</span>         <span style="color: rgb(95,135,135)"># only wrap the first output for cross decomposition</span>
-<span class="ansi-green-fg">    143</span>         return_tuple <span style="color: rgb(98,98,98)">=</span> (
-<span class="ansi-green-fg">    144</span>             _wrap_data_with_container(method, data_to_wrap[<span style="color: rgb(98,98,98)">0</span>], X, <span style="color: rgb(0,135,0)">self</span>),
-<span class="ansi-green-fg">    145</span>             <span style="color: rgb(98,98,98)">*</span>data_to_wrap[<span style="color: rgb(98,98,98)">1</span>:],
-<span class="ansi-green-fg">    146</span>         )
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\base.py:915</span>, in <span class="ansi-cyan-fg">TransformerMixin.fit_transform</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, **fit_params)</span>
-<span class="ansi-green-fg">    911</span> <span style="color: rgb(95,135,135)"># non-optimized default implementation; override when a better</span>
-<span class="ansi-green-fg">    912</span> <span style="color: rgb(95,135,135)"># method is possible for a given clustering algorithm</span>
-<span class="ansi-green-fg">    913</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> y <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">    914</span>     <span style="color: rgb(95,135,135)"># fit method of arity 1 (unsupervised transformation)</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 915</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>fit(X, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>fit_params)<span style="color: rgb(98,98,98)">.</span>transform(X)
-<span class="ansi-green-fg">    916</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">    917</span>     <span style="color: rgb(95,135,135)"># fit method of arity 2 (supervised transformation)</span>
-<span class="ansi-green-fg">    918</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>fit(X, y, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>fit_params)<span style="color: rgb(98,98,98)">.</span>transform(X)
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\preprocessing\_data.py:434</span>, in <span class="ansi-cyan-fg">MinMaxScaler.fit</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y)</span>
-<span class="ansi-green-fg">    432</span> <span style="color: rgb(95,135,135)"># Reset internal state before fitting</span>
-<span class="ansi-green-fg">    433</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_reset()
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 434</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>partial_fit(X, y)
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\base.py:1151</span>, in <span class="ansi-cyan-fg">_fit_context.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(estimator, *args, **kwargs)</span>
-<span class="ansi-green-fg">   1144</span>     estimator<span style="color: rgb(98,98,98)">.</span>_validate_params()
-<span class="ansi-green-fg">   1146</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> config_context(
-<span class="ansi-green-fg">   1147</span>     skip_parameter_validation<span style="color: rgb(98,98,98)">=</span>(
-<span class="ansi-green-fg">   1148</span>         prefer_skip_nested_validation <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> global_skip_validation
-<span class="ansi-green-fg">   1149</span>     )
-<span class="ansi-green-fg">   1150</span> ):
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1151</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> fit_method(estimator, <span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs)
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\preprocessing\_data.py:472</span>, in <span class="ansi-cyan-fg">MinMaxScaler.partial_fit</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y)</span>
-<span class="ansi-green-fg">    466</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">TypeError</span>(
-<span class="ansi-green-fg">    467</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">MinMaxScaler does not support sparse input. </span><span style="color: rgb(175,0,0)">&#34;</span>
-<span class="ansi-green-fg">    468</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Consider using MaxAbsScaler instead.</span><span style="color: rgb(175,0,0)">&#34;</span>
-<span class="ansi-green-fg">    469</span>     )
-<span class="ansi-green-fg">    471</span> first_pass <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span style="color: rgb(0,135,0)">hasattr</span>(<span style="color: rgb(0,135,0)">self</span>, <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">n_samples_seen_</span><span style="color: rgb(175,0,0)">&#34;</span>)
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 472</span> X <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_validate_data(
-<span class="ansi-green-fg">    473</span>     X,
-<span class="ansi-green-fg">    474</span>     reset<span style="color: rgb(98,98,98)">=</span>first_pass,
-<span class="ansi-green-fg">    475</span>     dtype<span style="color: rgb(98,98,98)">=</span>FLOAT_DTYPES,
-<span class="ansi-green-fg">    476</span>     force_all_finite<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">allow-nan</span><span style="color: rgb(175,0,0)">&#34;</span>,
-<span class="ansi-green-fg">    477</span> )
-<span class="ansi-green-fg">    479</span> data_min <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>nanmin(X, axis<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>)
-<span class="ansi-green-fg">    480</span> data_max <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>nanmax(X, axis<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>)
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\base.py:604</span>, in <span class="ansi-cyan-fg">BaseEstimator._validate_data</span><span class="ansi-blue-intense-fg ansi-bold">(self, X, y, reset, validate_separately, cast_to_ndarray, **check_params)</span>
-<span class="ansi-green-fg">    602</span>         out <span style="color: rgb(98,98,98)">=</span> X, y
-<span class="ansi-green-fg">    603</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> no_val_X <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> no_val_y:
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 604</span>     out <span style="color: rgb(98,98,98)">=</span> check_array(X, input_name<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">X</span><span style="color: rgb(175,0,0)">&#34;</span>, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>check_params)
-<span class="ansi-green-fg">    605</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> no_val_X <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> no_val_y:
-<span class="ansi-green-fg">    606</span>     out <span style="color: rgb(98,98,98)">=</span> _check_y(y, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>check_params)
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\utils\validation.py:917</span>, in <span class="ansi-cyan-fg">check_array</span><span class="ansi-blue-intense-fg ansi-bold">(array, accept_sparse, accept_large_sparse, dtype, order, copy, force_all_finite, ensure_2d, allow_nd, ensure_min_samples, ensure_min_features, estimator, input_name)</span>
-<span class="ansi-green-fg">    915</span>         array <span style="color: rgb(98,98,98)">=</span> xp<span style="color: rgb(98,98,98)">.</span>astype(array, dtype, copy<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">False</span>)
-<span class="ansi-green-fg">    916</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 917</span>         array <span style="color: rgb(98,98,98)">=</span> _asarray_with_order(array, order<span style="color: rgb(98,98,98)">=</span>order, dtype<span style="color: rgb(98,98,98)">=</span>dtype, xp<span style="color: rgb(98,98,98)">=</span>xp)
-<span class="ansi-green-fg">    918</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> ComplexWarning <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> complex_warning:
-<span class="ansi-green-fg">    919</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(
-<span class="ansi-green-fg">    920</span>         <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Complex data not supported</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-bold" style="color: rgb(175,95,135)">{}</span><span class="ansi-bold" style="color: rgb(175,95,0)">\n</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(98,98,98)">.</span>format(array)
-<span class="ansi-green-fg">    921</span>     ) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">complex_warning</span>
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\sklearn\utils\_array_api.py:380</span>, in <span class="ansi-cyan-fg">_asarray_with_order</span><span class="ansi-blue-intense-fg ansi-bold">(array, dtype, order, copy, xp)</span>
-<span class="ansi-green-fg">    378</span>     array <span style="color: rgb(98,98,98)">=</span> numpy<span style="color: rgb(98,98,98)">.</span>array(array, order<span style="color: rgb(98,98,98)">=</span>order, dtype<span style="color: rgb(98,98,98)">=</span>dtype)
-<span class="ansi-green-fg">    379</span> <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 380</span>     array <span style="color: rgb(98,98,98)">=</span> numpy<span style="color: rgb(98,98,98)">.</span>asarray(array, order<span style="color: rgb(98,98,98)">=</span>order, dtype<span style="color: rgb(98,98,98)">=</span>dtype)
-<span class="ansi-green-fg">    382</span> <span style="color: rgb(95,135,135)"># At this point array is a NumPy ndarray. We convert it to an array</span>
-<span class="ansi-green-fg">    383</span> <span style="color: rgb(95,135,135)"># container that is consistent with the input&#39;s namespace.</span>
-<span class="ansi-green-fg">    384</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> xp<span style="color: rgb(98,98,98)">.</span>asarray(array)
-
-File <span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\anaconda3\Lib\site-packages\pandas\core\indexes\base.py:885</span>, in <span class="ansi-cyan-fg">Index.__array__</span><span class="ansi-blue-intense-fg ansi-bold">(self, dtype)</span>
-<span class="ansi-green-fg">    881</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">__array__</span>(<span style="color: rgb(0,135,0)">self</span>, dtype<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">None</span>) <span style="color: rgb(98,98,98)">-</span><span style="color: rgb(98,98,98)">&gt;</span> np<span style="color: rgb(98,98,98)">.</span>ndarray:
-<span class="ansi-green-fg">    882</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">&#34;&#34;&#34;</span>
-<span class="ansi-green-fg">    883</span> <span style="color: rgb(175,0,0)">    The array interface, return my values.</span>
-<span class="ansi-green-fg">    884</span> <span style="color: rgb(175,0,0)">    &#34;&#34;&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 885</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> np<span style="color: rgb(98,98,98)">.</span>asarray(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_data, dtype<span style="color: rgb(98,98,98)">=</span>dtype)
-
-<span class="ansi-red-intense-fg ansi-bold">ValueError</span>: could not convert string to float: &#39;seniorcitizen&#39;</pre>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seniorcitizen</th>
+      <th>tenure</th>
+      <th>monthlycharges</th>
+      <th>totalcharges</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.013889</td>
+      <td>0.115423</td>
+      <td>0.001275</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>0.472222</td>
+      <td>0.385075</td>
+      <td>0.215867</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.027778</td>
+      <td>0.354229</td>
+      <td>0.010310</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.625000</td>
+      <td>0.239303</td>
+      <td>0.210241</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.027778</td>
+      <td>0.521891</td>
+      <td>0.015330</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>7016</th>
+      <td>0.0</td>
+      <td>0.333333</td>
+      <td>0.662189</td>
+      <td>0.227521</td>
+    </tr>
+    <tr>
+      <th>7017</th>
+      <td>0.0</td>
+      <td>1.000000</td>
+      <td>0.845274</td>
+      <td>0.847461</td>
+    </tr>
+    <tr>
+      <th>7018</th>
+      <td>0.0</td>
+      <td>0.152778</td>
+      <td>0.112935</td>
+      <td>0.037809</td>
+    </tr>
+    <tr>
+      <th>7019</th>
+      <td>1.0</td>
+      <td>0.055556</td>
+      <td>0.558706</td>
+      <td>0.033210</td>
+    </tr>
+    <tr>
+      <th>7020</th>
+      <td>0.0</td>
+      <td>0.916667</td>
+      <td>0.869652</td>
+      <td>0.787641</td>
+    </tr>
+  </tbody>
+</table>
+<p>7021 rows × 4 columns</p>
 </div>
+</div>
+
 </div>
 
 </div>
