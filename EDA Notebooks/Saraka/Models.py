@@ -10,50 +10,42 @@ from sklearn.metrics import accuracy_score
 df = pd.read_csv('Telecom Churn Prediction.csv')
 
 ftData = DataSplit.dtreformat(df)
-X_train, X_test, y_train, y_test = DataSplit.datasplit(ftData, 'Churn')
-X_oversampled, y_oversampled = DataSplit.smote(X_train, y_train)
-X_undersampled, y_undersampled = DataSplit.RUS(X_train, y_train)
+X_train, X_test, Y_train, Y_test = DataSplit.datasplit(ftData, 'Churn')
+X_oversampled, y_oversampled = DataSplit.smote(X_train, Y_train)
+X_undersampled, y_undersampled = DataSplit.RUS(X_train, Y_train)
 
 
-def models(x_resampled, y_resampled):
-    logistic_model = LogisticRegression(max_iter=1000)
-    logistic_model.fit(x_resampled, y_resampled)
-    logistic_predictions = logistic_model.predict(X_test)
-    logistic_accuracy = accuracy_score(y_test, logistic_predictions)
-    print(f'Logistic Regression Accuracy: {logistic_accuracy}')
+def models(x_train, y_train, x_test, y_test):
+    classifiers = [
+        LogisticRegression(max_iter=1000),
+        DecisionTreeClassifier(),
+        RandomForestClassifier(),
+        SVC(),
+        KNeighborsClassifier()
+    ]
 
-    # Decision Tree
-    tree_model = DecisionTreeClassifier()
-    tree_model.fit(x_resampled, y_resampled)
-    tree_predictions = tree_model.predict(X_test)
-    tree_accuracy = accuracy_score(y_test, tree_predictions)
-    print(f'Decision Tree Accuracy: {tree_accuracy}')
+    results_dict = {'Classifier': [], 'Training Accuracy': [], 'Testing Accuracy': []}
 
-    # Random Forest
-    forest_model = RandomForestClassifier()
-    forest_model.fit(x_resampled, y_resampled)
-    forest_predictions = forest_model.predict(X_test)
-    forest_accuracy = accuracy_score(y_test, forest_predictions)
-    print(f'Random Forest Accuracy: {forest_accuracy}')
+    for clf in classifiers:
+        clf.fit(x_train, y_train)
 
-    # Support Vector Machine (SVM)
-    svm_model = SVC()
-    svm_model.fit(x_resampled, y_resampled)
-    svm_predictions = svm_model.predict(X_test)
-    svm_accuracy = accuracy_score(y_test, svm_predictions)
-    print(f'SVM Accuracy: {svm_accuracy}')
+        train_predictions = clf.predict(x_train)
+        train_accuracy = accuracy_score(y_train, train_predictions)
 
-    # K-Nearest Neighbors (KNN)
-    knn_model = KNeighborsClassifier()
-    knn_model.fit(x_resampled, y_resampled)
-    knn_predictions = knn_model.predict(X_test)
-    knn_accuracy = accuracy_score(y_test, knn_predictions)
-    print(f'KNN Accuracy: {knn_accuracy}')
+        test_predictions = clf.predict(x_test)
+        test_accuracy = accuracy_score(y_test, test_predictions)
+
+        results_dict['Classifier'].append(clf.__class__.__name__)
+        results_dict['Training Accuracy'].append(train_accuracy)
+        results_dict['Testing Accuracy'].append(test_accuracy)
+
+    results_df = pd.DataFrame(results_dict)
+    print(results_df)
 
 
-print("-------------Oversampled------------------")
-models(X_oversampled, y_oversampled)
-print("-------------Undersampled-----------------")
-models(X_undersampled, y_undersampled)
-print("-------------Unbalanced------------------")
-models(X_train, y_train)
+print("\n-------------Oversampled------------------\n")
+models(X_oversampled, y_oversampled, X_test, Y_test)
+print("\n-------------Undersampled-----------------\n")
+models(X_undersampled, y_undersampled, X_test, Y_test)
+print("\n-------------Unbalanced------------------\n")
+models(X_train, Y_train, X_test, Y_test)
