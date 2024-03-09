@@ -3,6 +3,8 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
+from sklearn.preprocessing import MinMaxScaler
+from imblearn.combine import SMOTETomek
 
 
 def dtreformat(df):
@@ -12,6 +14,9 @@ def dtreformat(df):
     df['TotalCharges'] = df['TotalCharges'].replace({' ': 0})
     df['TotalCharges'] = pd.to_numeric(df['TotalCharges'])
     numeric_cols = df._get_numeric_data().columns
+    scaler = MinMaxScaler()
+    for i in numeric_cols:
+        df[[i]] = scaler.fit_transform(df[[i]])
     categ_cols = list(set(df.columns) - set(numeric_cols))
     lb = LabelEncoder()
     for i in categ_cols:
@@ -38,3 +43,8 @@ def RUS(x, y):
     undersampler = RandomUnderSampler(random_state=42)
     X_undersampled, y_undersampled = undersampler.fit_resample(x, y)
     return X_undersampled, y_undersampled
+
+def combine(x,y):
+    smote_enn = SMOTETomek(random_state=0)
+    X_combined, y_combined = smote_enn.fit_resample(x, y)
+    return X_combined, y_combined
