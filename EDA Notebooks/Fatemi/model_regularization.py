@@ -43,35 +43,35 @@ class TelecomChurnPredictor:
         return X_oversampled, y_oversampled
     
     def train_logistic_regression(self, X_train, y_train, X_test, y_test):
-        logistic = LogisticRegression(max_iter=1000)
+        logistic = LogisticRegression(max_iter=1000, penalty='l2', C=1.0, solver='lbfgs', max_iter=1000, tol=1e-4, class_weight=None)
         logistic.fit(X_train, y_train)
         predict = logistic.predict(X_test)
         accuracy = accuracy_score(y_test, predict)
         print(f"Testing Accuracy (Logistic Regression): {accuracy * 100:.2f}%")
     
     def train_decision_tree(self, X_train, y_train, X_test, y_test):
-        decision_tree = DecisionTreeClassifier()
+        decision_tree = DecisionTreeClassifier(criterion='gini', max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42)
         decision_tree.fit(X_train, y_train)
         predict = decision_tree.predict(X_test)
         accuracy = accuracy_score(y_test, predict)
         print(f"Testing Accuracy (Decision Tree): {accuracy * 100:.2f}%")
     
     def train_random_forest(self, X_train, y_train, X_test, y_test):
-        random_forest = RandomForestClassifier(n_estimators=100)
+        random_forest = RandomForestClassifier(n_estimators=100, criterion='gini', max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42)
         random_forest.fit(X_train, y_train)
         predict = random_forest.predict(X_test)
         accuracy = accuracy_score(y_test, predict)
         print(f"Testing Accuracy (Random Forest): {accuracy * 100:.2f}%")
     
     def train_svc(self, X_train, y_train, X_test, y_test):
-        svc = SVC()
+        svc = SVC(C=C, kernel=kernel, gamma=gamma, random_state=random_state)
         svc.fit(X_train, y_train)
         predict = svc.predict(X_test)
         accuracy = accuracy_score(y_test, predict)
         print(f"Testing Accuracy (SVC): {accuracy * 100:.2f}%")
     
     def train_knn(self, X_train, y_train, X_test, y_test):
-        knn = KNeighborsClassifier()
+        knn = KNeighborsClassifier(n_neighbors=5, weights='uniform', algorithm='auto'))
         knn.fit(X_train, y_train)
         predict = knn.predict(X_test)
         accuracy = accuracy_score(y_test, predict)
