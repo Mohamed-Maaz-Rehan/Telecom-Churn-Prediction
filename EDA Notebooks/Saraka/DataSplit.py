@@ -8,12 +8,11 @@ from imblearn.combine import SMOTETomek
 
 
 def dtreformat(df):
-    # df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines', 'InternetService']), axis=1)
+    df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines','StreamingMovies']), axis=1)
     # df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines', 'InternetService', 'StreamingTV',
     #              'StreamingMovies']), axis=1)
     df['TotalCharges'] = df['TotalCharges'].replace({' ': 0})
     df['TotalCharges'] = pd.to_numeric(df['TotalCharges'])
-
     numeric_cols = df._get_numeric_data().columns
     categ_cols = list(set(df.columns) - set(numeric_cols))
     lb = LabelEncoder()
@@ -58,4 +57,3 @@ def combine(x, y):
     smote_enn = SMOTETomek(random_state=0)
     X_combined, y_combined = smote_enn.fit_resample(x, y)
     return X_combined, y_combined
-

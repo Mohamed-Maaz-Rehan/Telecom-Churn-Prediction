@@ -4,57 +4,62 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score
-from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score, roc_auc_score, roc_curve
 
 import warnings
+import Outputs
 
 warnings.filterwarnings("ignore")
 
 
 def models(x_train, y_train, x_test, y_test):
     classifiers = [
-        LogisticRegression(max_iter=10000),
+        LogisticRegression(solver='saga', penalty='l1', max_iter=10000),
+        LogisticRegression(penalty='l2', max_iter=10000),
         DecisionTreeClassifier(),
         RandomForestClassifier(),
         AdaBoostClassifier(n_estimators=50),  # AdaBoost with 50 base estimators
-        SVC(probability=True),
-        #KNeighborsClassifier()
+        SVC(C=1, probability=True, kernel='rbf'),
+        KNeighborsClassifier()
     ]
 
     results_dict = {'Classifier': [], 'Training Accuracy': [], 'Testing Accuracy': [],
                     'Training Precision': [], 'Testing Precision': [],
                     'Training Recall': [], 'Testing Recall': [],
-                    'Training F1': [], 'Testing F1': []}
+                    'Training F1': [], 'Testing F1': [], 'AUC': []}
+
+    fprs, tprs, aucs = [], [], []
+    classifier_names = []
 
     for i, clf in enumerate(classifiers):
+        if isinstance(clf, LogisticRegression):
+            penalty = clf.get_params()['penalty']
+            classifier_name = f"LogisticRegression({penalty})"
+        else:
+            classifier_name = clf.__class__.__name__
+
         clf.fit(x_train, y_train)
 
-        k_best = SelectKBest(score_func=chi2, k=15)  # Selecting 15 best features using chi-square test
-        x_train_selected = k_best.fit_transform(x_train, y_train)
-        x_test_selected = k_best.transform(x_test)
-
-        clf.fit(x_train_selected, y_train)
-
-        if isinstance(clf, KNeighborsClassifier):
-            train_predictions = clf.predict(x_train.values)
-        else:
-            train_predictions = clf.predict(x_train_selected)
+        train_predictions = clf.predict(x_train)
         train_accuracy = accuracy_score(y_train, train_predictions)
         train_precision = precision_score(y_train, train_predictions)
         train_recall = recall_score(y_train, train_predictions)
         train_f1 = f1_score(y_train, train_predictions)
 
-        if isinstance(clf, KNeighborsClassifier):
-            test_predictions = clf.predict(x_test.values)
-        else:
-            test_predictions = clf.predict(x_test_selected)
+        test_predictions = clf.predict(x_test)
         test_accuracy = accuracy_score(y_test, test_predictions)
         test_precision = precision_score(y_test, test_predictions)
         test_recall = recall_score(y_test, test_predictions)
         test_f1 = f1_score(y_test, test_predictions)
 
-        results_dict['Classifier'].append(clf.__class__.__name__)
+        fpr, tpr, _ = roc_curve(y_test, clf.predict_proba(x_test)[:, 1])
+        auc_score = roc_auc_score(y_test, clf.predict_proba(x_test)[:, 1])
+        fprs.append(fpr)
+        tprs.append(tpr)
+        aucs.append(auc_score)
+        classifier_names.append(classifier_name)
+
+        results_dict['Classifier'].append(classifier_name)
         results_dict['Training Accuracy'].append(train_accuracy)
         results_dict['Testing Accuracy'].append(test_accuracy)
         results_dict['Training Precision'].append(train_precision)
@@ -63,6 +68,8 @@ def models(x_train, y_train, x_test, y_test):
         results_dict['Testing Recall'].append(test_recall)
         results_dict['Training F1'].append(train_f1)
         results_dict['Testing F1'].append(test_f1)
+        results_dict['AUC'].append(auc_score)
 
+    Outputs.plot_auroc(fprs, tprs, aucs, classifier_names)
     results_df = pd.DataFrame(results_dict)
     return results_df
