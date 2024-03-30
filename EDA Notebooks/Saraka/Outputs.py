@@ -31,6 +31,13 @@ def visualize_metrics(results_df):
     plt.xticks([x + bar_width / 2 for x in index], results_df['Classifier'], rotation=45)
     plt.legend()
 
+    # Add values on top of each bar
+    for i in index:
+        plt.text(i - 0.05, results_df['Training Accuracy'][i] + 0.01, str(round(results_df['Training Accuracy'][i], 2)),
+                 fontsize=10)
+        plt.text(i + bar_width - 0.05, results_df['Testing Accuracy'][i] + 0.01,
+                 str(round(results_df['Testing Accuracy'][i], 2)), fontsize=10)
+
     plt.tight_layout()
     plt.show()
 
@@ -44,6 +51,14 @@ def visualize_metrics(results_df):
     plt.title('Precision Comparison')
     plt.xticks([x + bar_width / 2 for x in index], results_df['Classifier'], rotation=45)
     plt.legend()
+
+    # Add values on top of each bar
+    for i in index:
+        plt.text(i - 0.05, results_df['Training Precision'][i] + 0.01,
+                 str(round(results_df['Training Precision'][i], 2)), fontsize=10)
+        plt.text(i + bar_width - 0.05, results_df['Testing Precision'][i] + 0.01,
+                 str(round(results_df['Testing Precision'][i], 2)), fontsize=10)
+
     plt.tight_layout()
     plt.show()
 
@@ -57,6 +72,13 @@ def visualize_metrics(results_df):
     plt.title('Recall Comparison')
     plt.xticks([x + bar_width / 2 for x in index], results_df['Classifier'], rotation=45)
     plt.legend()
+
+    for i in index:
+        plt.text(i - 0.05, results_df['Training Recall'][i] + 0.01, str(round(results_df['Training Recall'][i], 2)),
+                 fontsize=10)
+        plt.text(i + bar_width - 0.05, results_df['Testing Recall'][i] + 0.01,
+                 str(round(results_df['Testing Recall'][i], 2)), fontsize=10)
+
     plt.tight_layout()
     plt.show()
 
@@ -70,6 +92,14 @@ def visualize_metrics(results_df):
     plt.title('F1-score Comparison')
     plt.xticks([x + bar_width / 2 for x in index], results_df['Classifier'], rotation=45)
     plt.legend()
+
+    # Add values on top of each bar
+    for i in index:
+        plt.text(i - 0.05, results_df['Training F1'][i] + 0.01, str(round(results_df['Training F1'][i], 2)),
+                 fontsize=10)
+        plt.text(i + bar_width - 0.05, results_df['Testing F1'][i] + 0.01, str(round(results_df['Testing F1'][i], 2)),
+                 fontsize=10)
+
     plt.tight_layout()
     plt.show()
 

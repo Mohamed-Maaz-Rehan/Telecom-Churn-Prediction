@@ -8,16 +8,15 @@ from imblearn.combine import SMOTETomek
 
 
 def dtreformat(df):
-    df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines','StreamingMovies']), axis=1)
+    df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines', 'StreamingMovies']), axis=1)
     # df = df.drop((['customerID', 'gender', 'PhoneService', 'MultipleLines', 'InternetService', 'StreamingTV',
     #              'StreamingMovies']), axis=1)
     df['TotalCharges'] = df['TotalCharges'].replace({' ': 0})
     df['TotalCharges'] = pd.to_numeric(df['TotalCharges'])
+    df['Churn'] = df['Churn'].replace({'Yes': 0, 'No': 1})
     numeric_cols = df._get_numeric_data().columns
     categ_cols = list(set(df.columns) - set(numeric_cols))
-    lb = LabelEncoder()
-    for i in categ_cols:
-        df[i] = lb.fit_transform(df[i])
+    df = pd.get_dummies(df, columns=categ_cols)
 
     return df
 
@@ -30,13 +29,10 @@ def datasplit(df):
 
 
 def dtscale(X_train, X_test):
-    numeric_cols = X_train._get_numeric_data().columns
+    trcols = 'MonthlyCharges', 'TotalCharges','tenure'
     scaler = MinMaxScaler()
-    for i in numeric_cols:
+    for i in trcols:
         X_train[[i]] = scaler.fit_transform(X_train[[i]])
-    numeric_cols = X_test._get_numeric_data().columns
-    scaler = MinMaxScaler()
-    for i in numeric_cols:
         X_test[[i]] = scaler.fit_transform(X_test[[i]])
     return X_train, X_test
 
