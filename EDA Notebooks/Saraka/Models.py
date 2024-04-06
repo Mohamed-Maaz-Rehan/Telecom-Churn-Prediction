@@ -1,24 +1,20 @@
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score, roc_auc_score, roc_curve
-import shap
-import matplotlib.pyplot as plt
 import warnings
-import Outputs
+import pickle
+
+import DataSplit
 
 warnings.filterwarnings("ignore")
 
 
 def models(x_train, y_train, x_test, y_test):
     classifiers = [
-        (LogisticRegression(solver='saga', penalty='l1', max_iter=10000)),
-        RandomForestClassifier(),
-        AdaBoostClassifier(n_estimators=50),  # AdaBoost with 50 base estimators
-        SVC(C=1, probability=True, kernel='rbf'),
+        (LogisticRegression(C=1,solver='saga', penalty='l1', max_iter=10000)),
+        #RandomForestClassifier(),
+        #AdaBoostClassifier(n_estimators=50),  # AdaBoost with 50 base estimators
+        #SVC(C=1, probability=True, kernel='rbf'),
     ]
 
     results_dict = {'Classifier': [], 'Training Accuracy': [], 'Testing Accuracy': [],
@@ -29,6 +25,8 @@ def models(x_train, y_train, x_test, y_test):
     fprs, tprs, aucs = [], [], []
     classifier_names = []
 
+    #x_train, x_test = DataSplit.skBest(x_train,x_test,y_train)
+    #print(x_train)
     for i, clf in enumerate(classifiers):
         if isinstance(clf, LogisticRegression):
             penalty = clf.get_params()['penalty'].upper()
@@ -38,24 +36,7 @@ def models(x_train, y_train, x_test, y_test):
 
         clf.fit(x_train, y_train)
 
-        if isinstance(clf, LogisticRegression):
-            feature_names = x_train.columns.tolist()
-            print(feature_names)
-            coefficients = dict(zip(feature_names, clf.coef_))
-            print("Weights for features:")
-            for feature, weight in coefficients.items():
-                print(f"{feature}: {weight}")
-
-            explainer = shap.Explainer(clf, x_train)
-
-            shap_values = explainer.shap_values(x_test)
-            print("Variable Importance Plot - Global Interpretation")
-            figure = plt.figure()
-            shap.summary_plot(shap_values, x_test)
-            plt.title(f'SHAP Values for {classifier_name}')
-            plt.savefig(f'SHAP_{classifier_name}.png', bbox_inches='tight')
-            plt.close()
-
+        save_model(clf, classifier_name)
         train_predictions = clf.predict(x_train)
         train_accuracy = accuracy_score(y_train, train_predictions)
         train_precision = precision_score(y_train, train_predictions)
@@ -80,7 +61,7 @@ def models(x_train, y_train, x_test, y_test):
         df['predicted'] = train_predictions
 
         incorrect = df[df['actual'] != df['predicted']]
-        incorrect.to_csv(f'FP{classifier_name}.csv', index=False)
+        #incorrect.to_csv(f'FP{classifier_name}.csv', index=False)
 
         results_dict['Classifier'].append(classifier_name)
         results_dict['Training Accuracy'].append(train_accuracy)
@@ -96,3 +77,8 @@ def models(x_train, y_train, x_test, y_test):
     # Outputs.plot_auroc(fprs, tprs, aucs, classifier_names)
     results_df = pd.DataFrame(results_dict)
     return results_df
+
+
+def save_model(clf, cls):
+    with open(f'{cls}.pickle', 'wb') as f:
+        pickle.dump(clf, f)
