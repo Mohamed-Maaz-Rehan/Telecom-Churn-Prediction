@@ -19,8 +19,8 @@ from catboost import CatBoostClassifier
 from sklearn import metrics
 from sklearn.metrics import roc_curve
 from sklearn.metrics import recall_score, confusion_matrix, precision_score, f1_score, accuracy_score, classification_report
-#loading data
-df = pd.read_csv('D:\Telecom Churn Prediction\Telecom Churn Prediction.csv')
+# loading data
+df = pd.read_csv('Telecom Churn Prediction.csv')
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.20, random_state = 40, stratify=y)
 # Perform one-hot encoding for categorical variables
 X_encoded = pd.get_dummies(X)

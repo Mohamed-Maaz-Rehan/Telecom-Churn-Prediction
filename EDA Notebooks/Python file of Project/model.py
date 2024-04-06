@@ -10,17 +10,26 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 from catboost import CatBoostClassifier
+
+df = pd.read_csv('Telecom Churn Prediction.csv')
+
+
+def train_test_split(df.drop[], y, test_size, random_state, stratify):
+    pass
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=40, stratify=y)
 dt_model = DecisionTreeClassifier()
-dt_model.fit(X_train,y_train)
+dt_model.fit(X_train, y_train)
 predictdt_y = dt_model.predict(X_test)
-accuracy_dt = dt_model.score(X_test,y_test)
-print("Decision Tree accuracy is :",accuracy_dt)
+accuracy_dt = dt_model.score(X_test, y_test)
+print("Decision Tree accuracy is :", accuracy_dt)
 # Creating a random forest classifier object 'temp_rf' with a random state of 0 and parallel processing enabled
-temp_rf=RandomForestClassifier(random_state=0,n_jobs=-1)
+temp_rf = RandomForestClassifier(random_state=0, n_jobs=-1)
 
 # Creating a grid search object 'grid_search' using the 'GridSearchCV' function, with a random forest classifier as the estimator, a parameter grid, 'roc_auc' as the scoring metric, and 5-fold cross-validation with parallel processing
-grid_search=GridSearchCV(estimator=temp_rf, param_grid=param_grid, scoring='roc_auc', cv=5, n_jobs=-1)
-from sklearn.model_selection import GridSearchCV
+grid_search = GridSearchCV(estimator=temp_rf, param_grid=param_grid, scoring='roc_auc', cv=5, n_jobs=-1)
+from sklearn.model_selection import GridSearchCV, train_test_split
 
 # Random Forest hyperparameter grid
 rf_param_grid = {
@@ -45,7 +54,6 @@ best_params_rf = grid_search_rf.best_params_
 best_score_rf = grid_search_rf.best_score_
 
 best_params_rf, best_score_rf
-
 
 # Assuming X and y are your features and target variable
 # Initialize the Random Forest classifier
