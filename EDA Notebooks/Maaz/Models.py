@@ -79,3 +79,137 @@ def logistic_regression(X_train,y_train,X_test,y_test):
     return train_accuracy,test_accuracy,train_conf_matrix,test_conf_matrix
 
 
+
+# Support Vector Machine
+
+def SVM(X_train, y_train, X_test, y_test):
+    # creating object
+    model = SVC()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Naive Baye's
+
+def gnb(X_train, y_train, X_test, y_test):
+    # creating object
+    model = GaussianNB()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# KNN Algorithm
+
+def knn(X_train, y_train, X_test, y_test):
+    # creating object
+    model = KNeighborsClassifier()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Decision Tree Algorithm
+
+def DT(X_train, y_train, X_test, y_test):
+    # creating object
+    model = DecisionTreeClassifier()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Random Forest Classifier
+
+def RF(X_train, y_train, X_test, y_test):
+    # creating object
+    model = RandomForestClassifier()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+
+
+
