@@ -1,10 +1,11 @@
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
+import pickle
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.preprocessing import MinMaxScaler
 from imblearn.combine import SMOTETomek
+from sklearn.preprocessing import OneHotEncoder
 
 
 def dtreformat(df):
@@ -16,7 +17,7 @@ def dtreformat(df):
     df['Churn'] = df['Churn'].replace({'Yes': 0, 'No': 1})
     numeric_cols = df._get_numeric_data().columns
     categ_cols = list(set(df.columns) - set(numeric_cols))
-    df = pd.get_dummies(df, columns=categ_cols)
+    # df = pd.get_dummies(df, columns=categ_cols)
 
     return df
 
@@ -29,12 +30,24 @@ def datasplit(df):
 
 
 def dtscale(X_train, X_test):
-    trcols = 'MonthlyCharges', 'TotalCharges','tenure'
+    trcols = 'MonthlyCharges', 'TotalCharges', 'tenure'
     scaler = MinMaxScaler()
     for i in trcols:
         X_train[[i]] = scaler.fit_transform(X_train[[i]])
         X_test[[i]] = scaler.fit_transform(X_test[[i]])
     return X_train, X_test
+
+
+def encoder(x_train, x_test):
+    encod = OneHotEncoder(handle_unknown="ignore")
+    encod.fit(x_train)
+
+    x_train = encod.transform(x_train)
+    x_test = encod.transform(x_test)
+
+    with open('encoder.pickle', 'wb') as f:
+        pickle.dump(encod, f)
+    return x_train, x_test
 
 
 def smote(x, y):
@@ -43,7 +56,7 @@ def smote(x, y):
     return X_oversampled, y_oversampled
 
 
-def RUS(x, y):
+def rus(x, y):
     undersampler = RandomUnderSampler(random_state=42)
     X_undersampled, y_undersampled = undersampler.fit_resample(x, y)
     return X_undersampled, y_undersampled
