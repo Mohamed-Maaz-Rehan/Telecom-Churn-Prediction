@@ -1,16 +1,22 @@
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
-from sklearn.linear_model import LogisticRegression, Lasso, Ridge, ElasticNet
-from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve
 
 
 class TelecomChurnPredictor:
     """
-    This class contains all the method for model building and predicts the telecom churn
+    This class contains all the method for model building and predicts the telecom churn using
+    Logistic regression, AdaBoost and SVM
     """
+
     def __init__(self, file_path):
         """
         Reads the csv file
@@ -18,50 +24,36 @@ class TelecomChurnPredictor:
         """
         self.df = pd.read_csv(file_path)
 
-    def print_data(self, rows=2):
-        for i in range(rows):
-            print(self.df[i])
+    def print_data(self):
+        print(self.df.head())
 
     def data_cleaning(self):
         """
-        Method to get the descriptive statistic summary,
-        check missing and duplicate values in the dataset df.
-        Dropped Customer ID column from the df.
-        Updated TotalCharges and Churn
-        :return: statistics, missing_values and duplicate_values
+        Method to dropped Customer ID column from the dataset
+        Updated TotalCharges, Churn, SeniorCitizen columns to categorical
         """
         self.df.drop("customerID", axis=1, inplace=True)
         self.df['TotalCharges'] = self.df['TotalCharges'].replace({' ': 0})
         self.df['TotalCharges'] = pd.to_numeric(self.df['TotalCharges'])
         self.df['Churn'] = self.df['Churn'].replace({'Yes': 0, 'No': 1})
-        statistics = self.df.describe()
-        missing_values = self.df.isna().any()
-        duplicate_values = self.df.duplicated()
-        return statistics, missing_values, duplicate_values
+        self.df['SeniorCitizen'] = self.df['SeniorCitizen'].replace({0: 'No', 1: 'Yes'})
 
-    def data_scaling(self):
+    def data_scaling(self, data_list):
         """
         Method to normalise the dataset
         """
-        print("The count of Churn is  ", self.df['Churn'].value_counts())
         scaler = MinMaxScaler()
-        self.df[['tenure', 'MonthlyCharges', 'TotalCharges']] = scaler.fit_transform(
-            self.df[['tenure', 'MonthlyCharges', 'TotalCharges']])
+        for data in data_list:
+            data[['tenure', 'MonthlyCharges', 'TotalCharges']] = scaler.fit_transform(
+                data[['tenure', 'MonthlyCharges', 'TotalCharges']])
 
-    def data_encoding(self, columns):
+    def data_encoding(self):
         """
-        Method to perform one-hot encoding and label encoding
-        :param columns: columns on which one-hot encoding should be applied
+        Method to perform get dummies on dataset
         """
-        # One-hot encoding
-        self.df = pd.get_dummies(self.df, columns=columns)
-
-        # label encoding
         numeric_cols = self.df._get_numeric_data().columns
         categ_cols = list(set(self.df.columns) - set(numeric_cols))
-        lb = LabelEncoder()
-        for i in categ_cols:
-            self.df[i] = lb.fit_transform(self.df[i])
+        self.df = pd.get_dummies(self.df, columns=categ_cols)
 
     def split_data(self):
         """
@@ -78,90 +70,106 @@ class TelecomChurnPredictor:
         Method to perform oversampling using SMOTE
         :param X_train: training data
         :param y_train: training data with target column
-        :return:
+        :return: oversampled data as X_oversampled, y_oversampled
         """
         smote = SMOTE(random_state=42)
         X_oversampled, y_oversampled = smote.fit_resample(X_train, y_train)
         return X_oversampled, y_oversampled
 
-    def logistic_model(self, X_train, y_train, X_test, y_test):
+    def plot_auroc(self, fprs, tprs, aucs, model):
         """
-        Method to perform logistic regression
+        Method to plot the AUC curve
+        :param fprs: false positive rates
+        :param tprs: true positive rates
+        :param aucs: auc scores
+        :param model: name of the model
+        """
+        plt.figure(figsize=(8, 6))
+        for fpr, tpr, auc_score, clf_name in zip(fprs, tprs, aucs, model):
+            sns.lineplot(x=fpr, y=tpr, label='%s (AUC = %0.2f)' % (clf_name, auc_score))
+
+        plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('Receiver Operating Characteristic (AUROC)')
+        plt.legend(loc="lower right")
+        plt.grid(True)
+        plt.show()
+
+    def ml_model(self, model, X_train, y_train, X_test, y_test):
+        """
+        Method to perform model building
+        :param model: name of the model
         :param X_train: train data with all features except target
         :param y_train: train data with target feature
         :param X_test: test data with all features except target
         :param y_test: test data with target feature
         """
-        logistic = LogisticRegression()
-        logistic.fit(X_train, y_train)
-        predict = logistic.predict(X_test)
-        accuracy = accuracy_score(y_test, predict)
-        print(f"Testing Accuracy (Logistic Regression): {accuracy * 100:.2f}%")
+        if model == 'LogisticRegression':
+            model_obj = LogisticRegression(max_iter=10000, C=1, solver='saga', penalty='l1')
+        elif model == 'AdaBoost':
+            model_obj = AdaBoostClassifier(n_estimators=50)
+        else:
+            model = 'SVM'
+            model_obj = SVC(C=1, probability=True, kernel='rbf')
 
-    def logistic_model_lasso(self, X_train, y_train, X_test, y_test):
-        """
-        Method to perform logistic regression with Lasso
-        :param X_train: train data with all features except target
-        :param y_train: train data with target feature
-        :param X_test: test data with all features except target
-        :param y_test: test data with target feature
-        """
-        lasso = Lasso(alpha=0.1)
-        lasso.fit(X_train, y_train)
-        predict = lasso.predict(X_test)
-        # Assuming y_test and predict are binary classes for logistic regression
-        predict_binary = [1 if p > 0.5 else 0 for p in predict]  # Convert to binary
-        accuracy = accuracy_score(y_test, predict_binary)
-        print(f"Testing Accuracy (Lasso Regression): {accuracy * 100:.2f}%")
+        model_obj.fit(X_train, y_train)
+        train_predict = model_obj.predict(X_train)
+        test_predict = model_obj.predict(X_test)
 
-    def logistic_model_rigid(self, X_train, y_train, X_test, y_test):
-        """
-        Method to perform logistic regression with Rigid
-        :param X_train: train data with all features except target
-        :param y_train: train data with target feature
-        :param X_test: test data with all features except target
-        :param y_test: test data with target feature
-        """
-        ridge = Ridge(alpha=0.1)
-        ridge.fit(X_train, y_train)
-        predict = ridge.predict(X_test)
-        # Assuming y_test and predict are binary classes for logistic regression
-        predict_binary = [1 if p > 0.5 else 0 for p in predict]  # Convert to binary
-        accuracy = accuracy_score(y_test, predict_binary)
-        print(f"Testing Accuracy (Ridge Regression): {accuracy * 100:.2f}%")
+        train_accuracy = accuracy_score(y_train, train_predict)
+        print(f"\nTraining Accuracy {model}: {train_accuracy * 100:.2f}%")
+        test_accuracy = accuracy_score(y_test, test_predict)
+        print(f"Testing Accuracy {model}: {test_accuracy * 100:.2f}%")
 
-    def logistic_model_elastic_net(self, X_train, y_train, X_test, y_test):
-        """
-        Method to perform logistic regression with elastic net
-        :param X_train: train data with all features except target
-        :param y_train: train data with target feature
-        :param X_test: test data with all features except target
-        :param y_test: test data with target feature
-        """
-        elastic_net = ElasticNet(alpha=0.1, l1_ratio=0.5)
-        elastic_net.fit(X_train, y_train)
-        predict = elastic_net.predict(X_test)
-        # Assuming y_test and predict are binary classes for logistic regression
-        predict_binary = [1 if p > 0.5 else 0 for p in predict]  # Convert to binary
-        accuracy = accuracy_score(y_test, predict_binary)
-        print(f"Testing Accuracy (Elastic Net Regression): {accuracy * 100:.2f}%")
+        train_precision = precision_score(y_train, train_predict)
+        print(f"\nTraining Precision {model}: {train_precision * 100:.2f}%")
+        test_precision = precision_score(y_test, test_predict)
+        print(f"Testing Precision {model}: {test_precision * 100:.2f}%")
 
+        train_recall = recall_score(y_train, train_predict)
+        print(f"\nTraining Recall {model}: {train_recall * 100:.2f}%")
+        test_recall = recall_score(y_test, test_predict)
+        print(f"Testing Recall {model}: {test_recall * 100:.2f}%")
+
+        train_f1 = f1_score(y_train, train_predict)
+        print(f"\nTraining F1 score {model}: {train_f1 * 100:.2f}%")
+        test_f1 = f1_score(y_test, test_predict)
+        print(f"Testing F1 score {model}: {test_f1 * 100:.2f}%")
+
+        fpr, tpr, _ = roc_curve(y_test, model_obj.predict_proba(X_test)[:, 1])
+        test_auc_score = roc_auc_score(y_test, model_obj.predict_proba(X_test)[:, 1])
+        print(f"\nTesting AUC score {model}: {test_auc_score * 100:.2f}%")
+
+        # Appending false positive, true positive and auc score values
+        fprs.append(fpr)
+        tprs.append(tpr)
+        aucs.append(test_auc_score)
+
+        return fprs, tprs, aucs
+
+    def execute_process(self):
+        """
+        Method to call all the methods of the file
+        """
+        self.data_cleaning()
+        self.data_encoding()
+        self.print_data()
+
+        X_train, X_test, y_train, y_test = self.split_data()
+        self.data_scaling([X_train, X_test])
+
+        X_oversampled, y_oversampled = self.oversample_data(X_train, y_train)
+
+        model_names = ['LogisticRegression', 'AdaBoost', 'SVM']
+        for model in model_names:
+            fprs, tprs, aucs = self.ml_model(model, X_oversampled, y_oversampled, X_test, y_test)
+
+        self.plot_auroc(fprs, tprs, aucs, model_names)
+
+
+fprs, tprs, aucs = [], [], []
 telecom_predictor = TelecomChurnPredictor("Telecom Churn Prediction.csv")
-statistics, missing_values, duplicate_values = telecom_predictor.data_cleaning()
-print("\n The summary statistic is ", statistics)
-print("\n The missing values are ", missing_values)
-print("\n The duplicate values are ", duplicate_values)
-
-telecom_predictor.data_scaling()
-telecom_predictor.print_data()
-
-cols = ['MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies', 'Contract', 'PaymentMethod']
-telecom_predictor.data_encoding(columns=cols)
-telecom_predictor.print_data(rows=3)
-
-X_train, X_test, y_train, y_test = telecom_predictor.split_data()
-X_oversampled, y_oversampled = telecom_predictor.oversample_data(X_train, y_train)
-
-telecom_predictor.logistic_model(X_oversampled, y_oversampled, X_test, y_test)
-telecom_predictor.logistic_model_rigid(X_oversampled, y_oversampled, X_test, y_test)
-telecom_predictor.logistic_model_elastic_net(X_oversampled, y_oversampled, X_test, y_test)
+telecom_predictor.execute_process()
