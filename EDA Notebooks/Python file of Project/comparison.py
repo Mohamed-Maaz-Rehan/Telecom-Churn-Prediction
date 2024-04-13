@@ -1,3 +1,9 @@
+from imblearn import metrics
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, precision_score, confusion_matrix, accuracy_score, f1_score, \
+    recall_score
+
 print(classification_report(y_test, predicted_y))
 print(classification_report(y_test, predict_y))
 
