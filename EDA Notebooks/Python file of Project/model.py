@@ -1,71 +1,55 @@
+import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.linear_model import LogisticRegression
-from xgboost import XGBClassifier
-from catboost import CatBoostClassifier
-
-df = pd.read_csv('Telecom Churn Prediction.csv')
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.compose import ColumnTransformer
 
 
-def train_test_split(df.drop[], y, test_size, random_state, stratify):
-    pass
+def train_and_evaluate_models():
+    # Load the dataset
+    df = pd.read_csv('D:\\Telecom-Churn-Prediction\\Telecom Churn Prediction.csv')
+    X = df.drop('Churn', axis=1)
+    y = df['Churn']
 
+    # Split the data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=40, stratify=y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=40, stratify=y)
-dt_model = DecisionTreeClassifier()
-dt_model.fit(X_train, y_train)
-predictdt_y = dt_model.predict(X_test)
-accuracy_dt = dt_model.score(X_test, y_test)
-print("Decision Tree accuracy is :", accuracy_dt)
-# Creating a random forest classifier object 'temp_rf' with a random state of 0 and parallel processing enabled
-temp_rf = RandomForestClassifier(random_state=0, n_jobs=-1)
+    # Train a Decision Tree model
+    dt_model = DecisionTreeClassifier()
+    dt_model.fit(X_train, y_train)
+    predictdt_y = dt_model.predict(X_test)
+    accuracy_dt = accuracy_score(y_test, predictdt_y)
+    print(f"Decision Tree accuracy is: {accuracy_dt:.4f}")
 
-# Creating a grid search object 'grid_search' using the 'GridSearchCV' function, with a random forest classifier as the estimator, a parameter grid, 'roc_auc' as the scoring metric, and 5-fold cross-validation with parallel processing
-grid_search = GridSearchCV(estimator=temp_rf, param_grid=param_grid, scoring='roc_auc', cv=5, n_jobs=-1)
-from sklearn.model_selection import GridSearchCV, train_test_split
+    # Setup hyperparameter grid for RandomForest
+    rf_param_grid = {
+        'n_estimators': [100, 200],
+        'max_depth': [10, 20, None],
+        'min_samples_split': [2, 5],
+        'min_samples_leaf': [1, 2],
+        'max_features': ['sqrt']
+    }
 
-# Random Forest hyperparameter grid
-rf_param_grid = {
-    'n_estimators': [100, 200],
-    'max_depth': [10, 20, None],
-    'min_samples_split': [2, 5],
-    'min_samples_leaf': [1, 2],
-    'max_features': ['sqrt']
-}
+    # Initialize and fit GridSearchCV for RandomForest
+    rf = RandomForestClassifier(random_state=42)
+    grid_search_rf = GridSearchCV(estimator=rf, param_grid=rf_param_grid, cv=3, scoring='accuracy', verbose=2, n_jobs=-1)
+    grid_search_rf.fit(X_train, y_train)
 
-# Initialize the Random Forest model
-rf = RandomForestClassifier(random_state=42)
+    # Display the best parameters and score from GridSearch
+    best_params_rf = grid_search_rf.best_params_
+    best_score_rf = grid_search_rf.best_score_
+    print(f"Best GridSearch parameters: {best_params_rf}")
+    print(f"Best GridSearch score: {best_score_rf:.4f}")
 
-# Setup GridSearchCV
-grid_search_rf = GridSearchCV(estimator=rf, param_grid=rf_param_grid, cv=3, scoring='accuracy', verbose=2, n_jobs=-1)
+    # Perform 10-fold cross-validation for RandomForest
+    rf_classifier = RandomForestClassifier(**best_params_rf, random_state=42)  # Using best parameters
+    scores = cross_val_score(rf_classifier, X, y, cv=10)
+    print("Accuracy scores for each fold:", scores)
+    mean_score = scores.mean()
+    print(f"\nMean accuracy across 10 folds: {mean_score:.4f}")
 
-# Fit GridSearchCV
-grid_search_rf.fit(X_train, y_train)
+if __name__ == "__main__":
+    train_and_evaluate_models()
 
-# Best parameters and score
-best_params_rf = grid_search_rf.best_params_
-best_score_rf = grid_search_rf.best_score_
-
-best_params_rf, best_score_rf
-
-# Assuming X and y are your features and target variable
-# Initialize the Random Forest classifier
-rf_classifier = RandomForestClassifier(n_estimators=100, max_depth=20, random_state=42)
-
-# Perform 10-fold cross-validation
-scores = cross_val_score(rf_classifier, X, y, cv=10)
-
-# Display the scores for each fold
-print("Accuracy scores for each fold:")
-print(scores)
-
-# Calculate the average score across all folds
-mean_score = scores.mean()
-print(f"\nMean accuracy across 10 folds: {mean_score:.4f}")
