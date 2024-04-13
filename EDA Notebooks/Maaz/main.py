@@ -89,6 +89,45 @@ Models.RF(X_train_scaled,y_train,X_test_scaled,y_test)
 ## Balanced - SVM
 Models.RF(X_oversampled,y_oversampled,X_test_scaled,y_test)
 
+# AdaBoost Classifier
+## Unbalanced - SVM
+Models.AdaBoost(X_train_scaled,y_train,X_test_scaled,y_test)
 
+## Balanced - SVM
+Models.AdaBoost(X_oversampled,y_oversampled,X_test_scaled,y_test)
 
+# Gradient Boosting Classifier
+## Unbalanced - SVM
+Models.gb(X_train_scaled,y_train,X_test_scaled,y_test)
+
+## Balanced - SVM
+Models.gb(X_oversampled,y_oversampled,X_test_scaled,y_test)
+
+# Extreme Gradient Boosting Classifier
+## Unbalanced - SVM
+Models.xgb(X_train_scaled,y_train,X_test_scaled,y_test)
+
+## Balanced - SVM
+Models.xgb(X_oversampled,y_oversampled,X_test_scaled,y_test)
+
+# Regularization - Lasso
+## Unbalanced - SVM
+Models.lasso(X_train_scaled,y_train,X_test_scaled,y_test)
+
+## Balanced - SVM
+Models.lasso(X_oversampled,y_oversampled,X_test_scaled,y_test)
+
+# Regularization - Ridge
+## Unbalanced - SVM
+Models.ridge(X_train_scaled,y_train,X_test_scaled,y_test)
+
+## Balanced - SVM
+Models.ridge(X_oversampled,y_oversampled,X_test_scaled,y_test)
+
+# Regularization - Elastic Net
+## Unbalanced - SVM
+Models.elasticnet(X_train_scaled,y_train,X_test_scaled,y_test)
+
+## Balanced - SVM
+Models.elasticnet(X_oversampled,y_oversampled,X_test_scaled,y_test)
 

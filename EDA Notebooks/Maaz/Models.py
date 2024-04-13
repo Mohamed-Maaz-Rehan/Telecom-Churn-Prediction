@@ -8,6 +8,12 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from xgboost import XGBClassifier
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import ElasticNet
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_curve, roc_auc_score
@@ -210,6 +216,158 @@ def RF(X_train, y_train, X_test, y_test):
 
     return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
 
+# AdaBoost Algorithm
+
+def AdaBoost(X_train, y_train, X_test, y_test):
+    # creating object
+    model = AdaBoostClassifier()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
 
 
+## Gradient Boosting
+def gb(X_train, y_train, X_test, y_test):
+    # creating object
+    model = GradientBoostingClassifier()
+    # train the model
+    model.fit(X_train, y_train)
 
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+
+## XGBoost Algorithm
+def xgb(X_train, y_train, X_test, y_test):
+    # creating object
+    model = XGBClassifier()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Regularization Techniques
+
+# Lasso
+
+def lasso(X_train, y_train, X_test, y_test):
+    # creating object
+    model = Lasso(alpha=0.001)
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train).round()
+    y_pred_test = model.predict(X_test).round()
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Ridge
+def ridge(X_train, y_train, X_test, y_test):
+    # creating object
+    model = Ridge()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train).round()
+    y_pred_test = model.predict(X_test).round()
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
+
+# Elastic Net
+def elasticnet(X_train, y_train, X_test, y_test):
+    # creating object
+    model = ElasticNet()
+    # train the model
+    model.fit(X_train, y_train)
+
+    # make prediction
+    y_pred_train = model.predict(X_train).round()
+    y_pred_test = model.predict(X_test).round()
+
+    # calculate accuracy
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    print(train_accuracy)
+    print(test_accuracy)
+
+    # confusion matrix
+    train_conf_matrix = confusion_matrix(y_train, y_pred_train)
+    print(train_conf_matrix)
+    test_conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print(test_conf_matrix)
+
+    return train_accuracy, test_accuracy, train_conf_matrix, test_conf_matrix
